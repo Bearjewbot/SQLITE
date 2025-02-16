@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Entities;
 
@@ -9,9 +8,9 @@ public class ProjectEntity
     public int ProjectNumber { get; set; }
 
     [Required]
-    [Column(TypeName = "nvarchar(100)")]
+    [MaxLength(100)]
     public string Description { get; set; } = null!;
 
-    [Column(TypeName = "nvarchar(max)")]
+    [MaxLength(500)]
     public string? Notes { get; set; }
 }

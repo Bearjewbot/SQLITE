@@ -7,4 +7,11 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
 {
 
     public DbSet<ProjectEntity> Projects { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+
+    }
 }
