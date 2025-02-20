@@ -13,4 +13,8 @@ public class ProjectEntity
 
     [MaxLength(500)]
     public string? Notes { get; set; }
+
+    public int CustomerNumber { get; set; }
+
+    public CustomerEntity Customer { get; set; } = null!;
 }

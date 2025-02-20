@@ -7,6 +7,8 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
 {
 
     public DbSet<ProjectEntity> Projects { get; set; }
+    
+    public DbSet<CustomerEntity> Customers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
