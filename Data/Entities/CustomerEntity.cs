@@ -6,6 +6,8 @@ public class CustomerEntity
 {
     [Key] 
     public int CustomerNumber { get; set; }
+    
+    public ICollection<ProjectEntity> Projects { get; set; } = [];
 
     [Required] 
     [MaxLength(50)] 
@@ -13,6 +15,9 @@ public class CustomerEntity
     
     [MaxLength(50)]
     public string? CustomerReference { get; set; }
+    
+   
+    public int CustomerTypeId { get; set; }
 
-    public ICollection<ProjectEntity> Projects { get; set; } = [];
+    public CustomerTypeEntity CustomerType { get; set; } = null!;
 }
