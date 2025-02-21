@@ -4,7 +4,14 @@ namespace Data.Entities;
 
 public class UserContactInfoEntity
 {
-    [Key] public int UserId { get; set; }
-
+    public int Id { get; set; }
+    
+    [Required] 
+    [MaxLength(150)] 
+    public string Email { get; set; } = null!;
+    
+    [MaxLength(17)] 
+    public string? PhoneNumber { get; set; }
+    
     public UserEntity User { get; set; } = null!;
 }

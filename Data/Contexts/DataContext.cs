@@ -15,14 +15,4 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
 
     public DbSet<UserEntity> Users { get; set; }
     public DbSet<UserContactInfoEntity> UserContactInfo { get; set; }
-
-    public DbSet<UserEntity> Users { get; set; }
-
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-
-
-    }
 }

@@ -4,7 +4,7 @@ namespace Data.Entities;
 
 public class ProjectEntity
 {
-    [Key] public int ProjectNumber { get; set; }
+    public int Id { get; set; }
 
     [Required]
     [MaxLength(100)] 
@@ -24,9 +24,6 @@ public class ProjectEntity
     [MaxLength(50)] 
     public string? EndDate { get; set; }
     
-    
-    public int CustomerNumber { get; set; }
-
     public CustomerEntity Customer { get; set; } = null!;
     public UserEntity User { get; set; } = null!;
     public StatusTypeEntity Status { get; set; } = null!;
