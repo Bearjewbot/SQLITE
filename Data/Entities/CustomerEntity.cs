@@ -4,20 +4,16 @@ namespace Data.Entities;
 
 public class CustomerEntity
 {
-    [Key] 
-    public int CustomerNumber { get; set; }
+    public int Id { get; set; }
     
-    public ICollection<ProjectEntity> Projects { get; set; } = [];
-
     [Required] 
     [MaxLength(50)] 
-    public string CustomerName { get; set; } = null!;
+    public string Name { get; set; } = null!;
     
     [MaxLength(50)]
-    public string? CustomerReference { get; set; }
+    public string? ContactPerson { get; set; }
     
+    public ICollection<ProjectEntity> Projects { get; set; } = [];
    
-    public int CustomerTypeId { get; set; }
-
     public CustomerTypeEntity CustomerType { get; set; } = null!;
 }

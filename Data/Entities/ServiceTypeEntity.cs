@@ -4,11 +4,10 @@ namespace Data.Entities;
 
 public class ServiceTypeEntity
 {
-    [Key]
-    public int ServiceId { get; set; }
+    public int Id { get; set; }
+    
+    [Required]
+    public string ServiceType { get; set; } = null!;
     
     public ICollection<ProjectEntity> Projects { get; set; } = [];
-
-    
-    [Required] public string ServiceType { get; set; } = null!;
 }
