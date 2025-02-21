@@ -5,7 +5,7 @@
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class inital : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,73 +14,73 @@ namespace Data.Migrations
                 name: "CustomerTypes",
                 columns: table => new
                 {
-                    CustomerTypeId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     CustomerType = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CustomerTypes", x => x.CustomerTypeId);
+                    table.PrimaryKey("PK_CustomerTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ServiceTypes",
                 columns: table => new
                 {
-                    ServiceId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     ServiceType = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ServiceTypes", x => x.ServiceId);
+                    table.PrimaryKey("PK_ServiceTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "StatusTypes",
                 columns: table => new
                 {
-                    StatusTypeId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     StatusType = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StatusTypes", x => x.StatusTypeId);
+                    table.PrimaryKey("PK_StatusTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     FirstName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
                 {
-                    CustomerNumber = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CustomerName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    CustomerReference = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    ContactPerson = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
                     CustomerTypeId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.CustomerNumber);
+                    table.PrimaryKey("PK_Customers", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Customers_CustomerTypes_CustomerTypeId",
                         column: x => x.CustomerTypeId,
                         principalTable: "CustomerTypes",
-                        principalColumn: "CustomerTypeId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -88,20 +88,20 @@ namespace Data.Migrations
                 name: "UserContactInfo",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserId1 = table.Column<int>(type: "INTEGER", nullable: false),
                     Email = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "TEXT", maxLength: 17, nullable: true)
+                    PhoneNumber = table.Column<string>(type: "TEXT", maxLength: 17, nullable: true),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserContactInfo", x => x.UserId);
+                    table.PrimaryKey("PK_UserContactInfo", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserContactInfo_Users_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_UserContactInfo_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -109,46 +109,44 @@ namespace Data.Migrations
                 name: "Projects",
                 columns: table => new
                 {
-                    ProjectNumber = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Description = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Notes = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true),
                     Price = table.Column<int>(type: "INTEGER", nullable: false),
                     StartDate = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     EndDate = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    CustomerNumber = table.Column<int>(type: "INTEGER", nullable: false),
-                    CustomerNumber1 = table.Column<int>(type: "INTEGER", nullable: false),
-                    ProjectManager = table.Column<int>(type: "INTEGER", nullable: false),
+                    CustomerId = table.Column<int>(type: "INTEGER", nullable: false),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     StatusId = table.Column<int>(type: "INTEGER", nullable: false),
                     ServiceId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Projects", x => x.ProjectNumber);
+                    table.PrimaryKey("PK_Projects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Projects_Customers_CustomerNumber1",
-                        column: x => x.CustomerNumber1,
+                        name: "FK_Projects_Customers_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "CustomerNumber",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Projects_ServiceTypes_ServiceId",
                         column: x => x.ServiceId,
                         principalTable: "ServiceTypes",
-                        principalColumn: "ServiceId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Projects_StatusTypes_StatusId",
                         column: x => x.StatusId,
                         principalTable: "StatusTypes",
-                        principalColumn: "StatusTypeId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Projects_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -158,9 +156,9 @@ namespace Data.Migrations
                 column: "CustomerTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_CustomerNumber1",
+                name: "IX_Projects_CustomerId",
                 table: "Projects",
-                column: "CustomerNumber1");
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_ServiceId",
@@ -178,9 +176,9 @@ namespace Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserContactInfo_UserId1",
+                name: "IX_UserContactInfo_UserId",
                 table: "UserContactInfo",
-                column: "UserId1");
+                column: "UserId");
         }
 
         /// <inheritdoc />
