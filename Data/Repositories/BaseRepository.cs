@@ -1,15 +1,16 @@
 using System.Diagnostics;
 using System.Linq.Expressions;
 using Data.Contexts;
+using Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 
 namespace Data.Repositories;
 
 public abstract class BaseRepository<TEntity>(DataContext context) : IBaseRepository<TEntity> where TEntity : class
 {
-    private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
-
+    protected readonly DataContext _context = context;
+    protected readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
+    
     public virtual async Task<TEntity> CreateAsync(TEntity? entity)
     {
         if (entity == null)
@@ -19,8 +20,8 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
 
         try
         {
-            await context.AddAsync(entity);
-            await context.SaveChangesAsync();
+            await _context.AddAsync(entity);
+            await _context.SaveChangesAsync();
             return entity;
         }
         catch (Exception e)
@@ -32,7 +33,16 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
 
     public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
     {
-        return await _dbSet.ToListAsync();
+        try
+        {
+            return await _dbSet.ToListAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return [];
+        }   
+        
     }
 
     public virtual async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>>? expression)
@@ -60,8 +70,8 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
                 return null!;
             }
 
-            context.Entry(currentEntity).CurrentValues.SetValues(updatedEntity);
-            await context.SaveChangesAsync();
+            _context.Entry(currentEntity).CurrentValues.SetValues(updatedEntity);
+            await _context.SaveChangesAsync();
 
             return currentEntity;
         }
@@ -70,6 +80,8 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
             Debug.WriteLine(e);
             return null!;
         }
+    }
+
     public virtual async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>>? expression)
     {
         if (expression == null)
@@ -78,14 +90,15 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
         }
 
         try
-        { 
+        {
             var currentEntity = await _dbSet.FirstOrDefaultAsync(expression) ?? null;
             if (currentEntity == null)
             {
                 return false;
-            } 
+            }
+
             _dbSet.Remove(currentEntity);
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return true;
         }
         catch (Exception e)
@@ -95,6 +108,9 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
         }
     }
     
+    public virtual async Task<bool> CheckIfExistsAsync(Expression<Func<TEntity, bool>> expression)
+    {
+        return await _dbSet.AnyAsync(expression);
+    }
 
-    
 }
