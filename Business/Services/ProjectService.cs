@@ -1,12 +1,16 @@
+using Business.Models;
 using Data.Contexts;
 using Data.Entities;
+using Data.Interfaces;
 
 namespace Business.Services;
 
-public class ProjectService(DataContext context)
+public class ProjectService(IProjectRepository projectRepository)
 {
-    // Skapa endast services på det du vill lista
-    // Hämta alla statusar (get all), projektledare, kunder exempelvis  
-    private readonly DataContext _context = context;
+    private readonly IProjectRepository _projectRepository = projectRepository;
 
+    public async Task<IEnumerable<Project>> GetProjectsAsync()
+    {
+        
+    }
 }
