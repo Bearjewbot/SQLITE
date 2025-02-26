@@ -4,6 +4,8 @@ public class ProjectRegister
 {
     public string Description { get; set; } = null!;
     
+    public string? Notes { get; set; }
+    
     public string StartDate { get; set; } = null!;
     
     public string? EndDate { get; set; }

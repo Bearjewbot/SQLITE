@@ -29,11 +29,6 @@ public class ProjectRepository(DataContext context) : BaseRepository<ProjectEnti
 
     public override async Task<ProjectEntity> GetAsync(Expression<Func<ProjectEntity, bool>>? expression)
     {
-        if (expression == null)
-        {
-            return null!;
-        }
-
         try
         {
             var entity = await _context.Projects
@@ -46,7 +41,7 @@ public class ProjectRepository(DataContext context) : BaseRepository<ProjectEnti
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine(e.Message);
             return null!;
         }
     }

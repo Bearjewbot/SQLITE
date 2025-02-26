@@ -5,6 +5,8 @@ public class Project
     public int Id { get; set; }
     public string Description { get; set; } = null!;
     public string? Notes { get; set; }
+    
+    public int Price { get; set; }
     public string StartDate { get; set; } = null!;
     public string? EndDate { get; set; }
     
