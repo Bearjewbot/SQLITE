@@ -6,7 +6,7 @@ namespace Business.Factories;
 
 public static class ProjectFactory
 {
-    public static Project Map(ProjectEntity entity)
+    public static Project? Map(ProjectEntity entity)
     {
         try
         {
@@ -18,37 +18,20 @@ public static class ProjectFactory
                 Price = entity.Price,
                 StartDate = entity.StartDate,
                 EndDate = entity.EndDate,
-                Customer = new Customer
-                {
-                    Id = entity.Customer.Id,
-                    Name = entity.Customer.Name
-                },
-                User = new User
-                {
-                    Id = entity.User.Id,
-                    FirstName = entity.User.FirstName,
-                    LastName = entity.User.LastName
-                },
-                StatusType = new StatusType
-                {
-                    Id = entity.Status.Id,
-                    Type = entity.Status.StatusType
-                },
-                Service = new ServiceType
-                {
-                    Id = entity.Service.Id,
-                    Type = entity.Service.ServiceType
-                }
+                Customer = CustomerFactory.Map(entity.Customer),
+                User = UserFactory.Map(entity.User),
+                Status = StatusFactory.Map(entity.Status),
+                Service = ServiceTypeFactory.Map(entity.Service)
             };
         }
         catch (Exception e)
         {
             Debug.WriteLine(e.Message);
-            return null!;
+            return null;
         }
     }
 
-    public static ProjectEntity Map(ProjectRegister form)
+    public static ProjectEntity? Map(ProjectRegister form)
     {
         try
         {
@@ -58,32 +41,20 @@ public static class ProjectFactory
                 Notes = form.Notes,
                 StartDate = form.StartDate,
                 EndDate = form.EndDate,
-                Customer = new CustomerEntity
-                {
-                    Id = form.CustomerId
-                },
-                User = new UserEntity
-                {
-                    Id = form.UserId
-                },
-                Status = new StatusTypeEntity
-                {
-                    Id = form.StatusId
-                },
-                Service = new ServiceTypeEntity
-                {
-                    Id = form.ServiceId
-                }
+                CustomerEntityId = form.CustomerId,
+                UserEntityId = form.UserId,
+                StatusTypeEntityId = form.StatusId,
+                ServiceTypeEntityId = form.ServiceId
             };
         }
         catch (Exception e)
         {
             Debug.WriteLine(e.Message);
-            return null!;
+            return null;
         }
     }
 
-    public static ProjectEntity Map(Project project)
+    public static ProjectEntity? Map(Project project)
     {
         try
         {
@@ -95,28 +66,16 @@ public static class ProjectFactory
                 Price = project.Price,
                 StartDate = project.StartDate,
                 EndDate = project.EndDate,
-                Customer = new CustomerEntity
-                {
-                    Id = project.Customer.Id
-                },
-                User = new UserEntity
-                {
-                    Id = project.User.Id
-                },
-                Status = new StatusTypeEntity
-                {
-                    Id = project.StatusType.Id
-                },
-                Service = new ServiceTypeEntity
-                {
-                    Id = project.Service.Id
-                }
+                CustomerEntityId = project.Customer!.Id,
+                UserEntityId = project.User!.Id,
+                StatusTypeEntityId = project.Status!.Id,
+                ServiceTypeEntityId = project.Service!.Id
             };
         }
         catch (Exception e)
         {
             Debug.WriteLine(e.Message);
-            return null!;
+            return null;
         }
     }
 }

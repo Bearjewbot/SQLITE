@@ -42,7 +42,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
         }
         catch (Exception e)
         {
-            Debug.WriteLine(e);
+            Debug.WriteLine("Error getting the projects.");
             return [];
         }
     }

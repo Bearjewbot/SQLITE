@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250220184352_inital")]
-    partial class inital
+    [Migration("20250228160804_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,14 @@ namespace Data.Migrations
                     b.HasIndex("CustomerTypeId");
 
                     b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CustomerTypeId = 1,
+                            Name = "Bobby AB"
+                        });
                 });
 
             modelBuilder.Entity("Data.Entities.CustomerTypeEntity", b =>
@@ -57,6 +65,18 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CustomerTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CustomerType = "Företag"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CustomerType = "Privat Person"
+                        });
                 });
 
             modelBuilder.Entity("Data.Entities.ProjectEntity", b =>
@@ -65,7 +85,7 @@ namespace Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int>("CustomerEntityId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
@@ -85,7 +105,7 @@ namespace Data.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ServiceId")
+                    b.Property<int>("ServiceTypeEntityId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("StartDate")
@@ -93,23 +113,37 @@ namespace Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("StatusTypeEntityId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UserEntityId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("CustomerEntityId");
 
-                    b.HasIndex("ServiceId");
+                    b.HasIndex("ServiceTypeEntityId");
 
-                    b.HasIndex("StatusId");
+                    b.HasIndex("StatusTypeEntityId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserEntityId");
 
                     b.ToTable("Projects");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 101,
+                            CustomerEntityId = 1,
+                            Description = "Bästa projektet EU",
+                            EndDate = "2026-02-25",
+                            Price = 400000,
+                            ServiceTypeEntityId = 1,
+                            StartDate = "2024-01-25",
+                            StatusTypeEntityId = 1,
+                            UserEntityId = 1
+                        });
                 });
 
             modelBuilder.Entity("Data.Entities.ServiceTypeEntity", b =>
@@ -120,11 +154,19 @@ namespace Data.Migrations
 
                     b.Property<string>("ServiceType")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.ToTable("ServiceTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ServiceType = "Konsultation 1000kr/tim"
+                        });
                 });
 
             modelBuilder.Entity("Data.Entities.StatusTypeEntity", b =>
@@ -141,6 +183,23 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("StatusTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            StatusType = "Planerad"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            StatusType = "Påbörjad"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            StatusType = "Avslutad"
+                        });
                 });
 
             modelBuilder.Entity("Data.Entities.UserContactInfoEntity", b =>
@@ -158,14 +217,28 @@ namespace Data.Migrations
                         .HasMaxLength(17)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UserEntityId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserEntityId");
 
                     b.ToTable("UserContactInfo");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "Doggy@hotmail.com",
+                            UserEntityId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "Catty@hotmail.com",
+                            UserEntityId = 1
+                        });
                 });
 
             modelBuilder.Entity("Data.Entities.UserEntity", b =>
@@ -187,6 +260,14 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FirstName = "Lars",
+                            LastName = "Björnsson"
+                        });
                 });
 
             modelBuilder.Entity("Data.Entities.CustomerEntity", b =>
@@ -204,25 +285,25 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.Entities.CustomerEntity", "Customer")
                         .WithMany("Projects")
-                        .HasForeignKey("CustomerId")
+                        .HasForeignKey("CustomerEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.ServiceTypeEntity", "Service")
                         .WithMany("Projects")
-                        .HasForeignKey("ServiceId")
+                        .HasForeignKey("ServiceTypeEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.StatusTypeEntity", "Status")
                         .WithMany("Projects")
-                        .HasForeignKey("StatusId")
+                        .HasForeignKey("StatusTypeEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.UserEntity", "User")
                         .WithMany("Projects")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -239,7 +320,7 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.Entities.UserEntity", "User")
                         .WithMany("ContactInfo")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

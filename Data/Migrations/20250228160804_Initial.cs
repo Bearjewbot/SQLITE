@@ -2,10 +2,12 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class inital : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -29,7 +31,7 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ServiceType = table.Column<string>(type: "TEXT", nullable: false)
+                    ServiceType = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -92,14 +94,14 @@ namespace Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
                     PhoneNumber = table.Column<string>(type: "TEXT", maxLength: 17, nullable: true),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                    UserEntityId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserContactInfo", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserContactInfo_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_UserContactInfo_Users_UserEntityId",
+                        column: x => x.UserEntityId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -116,39 +118,87 @@ namespace Data.Migrations
                     Price = table.Column<int>(type: "INTEGER", nullable: false),
                     StartDate = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     EndDate = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    CustomerId = table.Column<int>(type: "INTEGER", nullable: false),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    StatusId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ServiceId = table.Column<int>(type: "INTEGER", nullable: false)
+                    CustomerEntityId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserEntityId = table.Column<int>(type: "INTEGER", nullable: false),
+                    StatusTypeEntityId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ServiceTypeEntityId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Projects_Customers_CustomerId",
-                        column: x => x.CustomerId,
+                        name: "FK_Projects_Customers_CustomerEntityId",
+                        column: x => x.CustomerEntityId,
                         principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Projects_ServiceTypes_ServiceId",
-                        column: x => x.ServiceId,
+                        name: "FK_Projects_ServiceTypes_ServiceTypeEntityId",
+                        column: x => x.ServiceTypeEntityId,
                         principalTable: "ServiceTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Projects_StatusTypes_StatusId",
-                        column: x => x.StatusId,
+                        name: "FK_Projects_StatusTypes_StatusTypeEntityId",
+                        column: x => x.StatusTypeEntityId,
                         principalTable: "StatusTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Projects_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Projects_Users_UserEntityId",
+                        column: x => x.UserEntityId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "CustomerTypes",
+                columns: new[] { "Id", "CustomerType" },
+                values: new object[,]
+                {
+                    { 1, "Företag" },
+                    { 2, "Privat Person" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ServiceTypes",
+                columns: new[] { "Id", "ServiceType" },
+                values: new object[] { 1, "Konsultation 1000kr/tim" });
+
+            migrationBuilder.InsertData(
+                table: "StatusTypes",
+                columns: new[] { "Id", "StatusType" },
+                values: new object[,]
+                {
+                    { 1, "Planerad" },
+                    { 2, "Påbörjad" },
+                    { 3, "Avslutad" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "FirstName", "LastName" },
+                values: new object[] { 1, "Lars", "Björnsson" });
+
+            migrationBuilder.InsertData(
+                table: "Customers",
+                columns: new[] { "Id", "ContactPerson", "CustomerTypeId", "Name" },
+                values: new object[] { 1, null, 1, "Bobby AB" });
+
+            migrationBuilder.InsertData(
+                table: "UserContactInfo",
+                columns: new[] { "Id", "Email", "PhoneNumber", "UserEntityId" },
+                values: new object[,]
+                {
+                    { 1, "Doggy@hotmail.com", null, 1 },
+                    { 2, "Catty@hotmail.com", null, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Projects",
+                columns: new[] { "Id", "CustomerEntityId", "Description", "EndDate", "Notes", "Price", "ServiceTypeEntityId", "StartDate", "StatusTypeEntityId", "UserEntityId" },
+                values: new object[] { 101, 1, "Bästa projektet EU", "2026-02-25", null, 400000, 1, "2024-01-25", 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_CustomerTypeId",
@@ -156,29 +206,29 @@ namespace Data.Migrations
                 column: "CustomerTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_CustomerId",
+                name: "IX_Projects_CustomerEntityId",
                 table: "Projects",
-                column: "CustomerId");
+                column: "CustomerEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_ServiceId",
+                name: "IX_Projects_ServiceTypeEntityId",
                 table: "Projects",
-                column: "ServiceId");
+                column: "ServiceTypeEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_StatusId",
+                name: "IX_Projects_StatusTypeEntityId",
                 table: "Projects",
-                column: "StatusId");
+                column: "StatusTypeEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_UserId",
+                name: "IX_Projects_UserEntityId",
                 table: "Projects",
-                column: "UserId");
+                column: "UserEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserContactInfo_UserId",
+                name: "IX_UserContactInfo_UserEntityId",
                 table: "UserContactInfo",
-                column: "UserId");
+                column: "UserEntityId");
         }
 
         /// <inheritdoc />
