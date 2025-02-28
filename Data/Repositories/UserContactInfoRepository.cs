@@ -6,6 +6,5 @@ namespace Data.Repositories;
 
 public class UserContactInfoRepository(DataContext context) : BaseRepository<UserContactInfoEntity>(context), IUserContactInfoRepository
 {
-    private readonly DataContext _context = context;
     
 }
