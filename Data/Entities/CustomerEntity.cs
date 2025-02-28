@@ -15,5 +15,6 @@ public class CustomerEntity
     
     public ICollection<ProjectEntity> Projects { get; set; } = [];
    
+    public int CustomerTypeId { get; set; }
     public CustomerTypeEntity CustomerType { get; set; } = null!;
 }

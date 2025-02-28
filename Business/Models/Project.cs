@@ -1,3 +1,5 @@
+using Data.Entities;
+
 namespace Business.Models;
 
 public class Project
@@ -10,8 +12,11 @@ public class Project
     public string StartDate { get; set; } = null!;
     public string? EndDate { get; set; }
     
-    public Customer Customer { get; set; } = null!;
-    public User User { get; set; } = null!;
-    public StatusType StatusType { get; set; } = null!;
-    public ServiceType Service { get; set; } = null!;
+    public Customer? Customer { get; set; }
+    
+    public User? User { get; set; } 
+    
+    public StatusType? Status { get; set; } 
+    
+    public ServiceType? Service { get; set; } 
 }

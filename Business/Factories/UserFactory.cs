@@ -5,13 +5,12 @@ namespace Business.Factories;
 
 public static class UserFactory
 {
-    public static User Map(UserEntity entity)
-    {
-        return new User
+    public static User? Map(UserEntity entity) => entity == null
+        ? null
+        : new User
         {
             Id = entity.Id,
             FirstName = entity.FirstName,
             LastName = entity.LastName
         };
-    }
 }

@@ -24,8 +24,15 @@ public class ProjectEntity
     [MaxLength(50)] 
     public string? EndDate { get; set; }
     
+    public int CustomerEntityId { get; set; }
     public CustomerEntity Customer { get; set; } = null!;
+   
+    public int UserEntityId { get; set; }
     public UserEntity User { get; set; } = null!;
+    
+    public int StatusTypeEntityId { get; set; }
     public StatusTypeEntity Status { get; set; } = null!;
+    
+    public int ServiceTypeEntityId { get; set; }
     public ServiceTypeEntity Service { get; set; } = null!;
 }

@@ -6,12 +6,11 @@ namespace Business.Factories;
 
 public static class StatusFactory
 {
-    public static StatusType Map(StatusTypeEntity entity)
-    {
-        return new StatusType
+    public static StatusType? Map(StatusTypeEntity entity) => entity == null
+        ? null
+        : new StatusType
         {
             Id = entity.Id,
             Type = entity.StatusType
         };
-    }
 }

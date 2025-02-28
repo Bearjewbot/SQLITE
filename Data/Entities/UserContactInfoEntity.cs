@@ -13,5 +13,7 @@ public class UserContactInfoEntity
     [MaxLength(17)] 
     public string? PhoneNumber { get; set; }
     
+    public int UserEntityId { get; set; }
+    
     public UserEntity User { get; set; } = null!;
 }
