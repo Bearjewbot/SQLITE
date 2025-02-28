@@ -2,7 +2,6 @@ using System.Diagnostics;
 using Business.Factories;
 using Business.Interfaces;
 using Business.Models;
-using Data.Contexts;
 using Data.Entities;
 using Data.Interfaces;
 
@@ -12,8 +11,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
 {
     private readonly IProjectRepository _projectRepository = projectRepository;
 
-
-    public async Task<Project> CreateProjectAsync(ProjectRegister form)
+    public async Task<Project?> CreateProjectAsync(ProjectRegister form)
     {
         
         try
@@ -21,7 +19,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
             var projectEntity = ProjectFactory.Map(form);
 
             if (await _projectRepository.CheckIfExistsAsync(x => x.Description == projectEntity.Description))
-                return null!;
+                return null;
             
             await _projectRepository.CreateAsync(projectEntity);
             var project = ProjectFactory.Map(projectEntity);
@@ -30,7 +28,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
         catch (Exception e)
         {
             Debug.WriteLine(e.Message);
-            return null!;
+            return null;
         }
     }
     
@@ -49,7 +47,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
         }
     }
 
-    public async Task<Project> GetProjectAsync(int id)
+    public async Task<Project?> GetProjectAsync(int id)
     {
         try
         {
@@ -59,11 +57,11 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
         catch (Exception e)
         {
             Debug.WriteLine(e.Message);
-            return null!;
+            return null;
         }
     }
 
-    public async Task<ProjectEntity> UpdateProjectAsync(Project project)
+    public async Task<ProjectEntity?> UpdateProjectAsync(Project project)
     {
         try
         {
@@ -73,7 +71,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
         catch (Exception e)
         {
             Debug.WriteLine(e.Message);
-            return null!;
+            return null;
         }
     }
 
