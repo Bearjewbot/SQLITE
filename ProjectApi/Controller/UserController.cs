@@ -1,14 +1,13 @@
-using Business.Services;
-using Microsoft.AspNetCore.Http;
+using Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ProjectApi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController(UserService userService) : ControllerBase
+    public class UserController(IUserService userService) : ControllerBase
     {
-        private readonly UserService _userService = userService;
+        private readonly IUserService _userService = userService;
 
         [HttpGet]
         public async Task<IActionResult> GetAll()

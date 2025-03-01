@@ -10,7 +10,7 @@ public class ServiceTypeService(IServiceTypeRepository serviceTypeRepository) : 
 {
     private readonly IServiceTypeRepository _serviceTypeRepository = serviceTypeRepository;
 
-    public async Task<IEnumerable<ServiceType>> GetServicesAsync()
+    public async Task<IEnumerable<ServiceType?>> GetServicesAsync()
     {
 
         var entity =  await _serviceTypeRepository.GetAllAsync();

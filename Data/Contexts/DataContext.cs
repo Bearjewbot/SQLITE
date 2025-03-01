@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Data.Entities;
+﻿using Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Contexts;
@@ -9,11 +8,6 @@ public class DataContext: DbContext
 
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
-    }
-
-    protected DataContext()
-    {
-        
     }
 
     public DbSet<CustomerEntity> Customers { get; set; }
@@ -29,8 +23,6 @@ public class DataContext: DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        var contactInfo = new UserContactInfoEntity { Id = 1, Email = "Doggy@hotmail.com", UserEntityId = 1 };
         
         modelBuilder.Entity<CustomerTypeEntity>().HasData(
             new CustomerTypeEntity { Id = 1, CustomerType = "Företag" },
@@ -38,21 +30,24 @@ public class DataContext: DbContext
         );
 
         modelBuilder.Entity<UserContactInfoEntity>().HasData(
-            contactInfo,
+            new UserContactInfoEntity { Id = 1, Email = "Doggy@hotmail.com", UserEntityId = 1 },
             new UserContactInfoEntity{Id = 2, Email = "Catty@hotmail.com", UserEntityId = 1}
         );
 
         modelBuilder.Entity<CustomerEntity>().HasData(
-            new CustomerEntity { Id = 1, Name = "Bobby AB", CustomerTypeId = 1 }
+            new CustomerEntity { Id = 1, Name = "Bobby AB", CustomerTypeId = 1 },
+            new CustomerEntity{Id = 2, Name = "Björn Gustavsson", CustomerTypeId = 2}
         );
 
         modelBuilder.Entity<UserEntity>().HasData(
-            new UserEntity { Id = 1, FirstName = "Lars", LastName = "Björnsson"}
+            new UserEntity { Id = 1, FirstName = "Lars", LastName = "Björnsson"},
+            new UserEntity{ Id = 2, FirstName = "Gunnar", LastName = "Strömming"}
         );
 
         modelBuilder.Entity<ServiceTypeEntity>().HasData(
-            new ServiceTypeEntity { Id = 1, ServiceType = "Konsultation 1000kr/tim" }
-        );
+            new ServiceTypeEntity { Id = 1, ServiceType = "Konsultation 1000kr/tim"},
+            new ServiceTypeEntity{ Id = 2, ServiceType = "Utveckling 1500kr/tim"}
+            );
 
         modelBuilder.Entity<StatusTypeEntity>().HasData(
             new StatusTypeEntity { Id = 1, StatusType = "Planerad" },

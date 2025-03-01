@@ -3,8 +3,6 @@ using Business.Services;
 using Data.Contexts;
 using Data.Interfaces;
 using Data.Repositories;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

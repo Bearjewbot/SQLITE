@@ -33,7 +33,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
     }
     
     
-    public async Task<IEnumerable<Project>> GetProjectsAsync()
+    public async Task<IEnumerable<Project?>> GetProjectsAsync()
     {
         try
         {
@@ -42,7 +42,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
         }
         catch (Exception e)
         {
-            Debug.WriteLine("Error getting the projects.");
+            Debug.WriteLine(e.Message);
             return [];
         }
     }
