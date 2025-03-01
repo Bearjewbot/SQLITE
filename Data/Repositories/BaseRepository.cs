@@ -45,7 +45,7 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
         
     }
 
-    public virtual async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>>? expression)
+    public virtual async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> expression)
     {
         if (expression == null)
         {
@@ -55,7 +55,7 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
         return await _dbSet.FirstOrDefaultAsync(expression) ?? null!;
     }
 
-    public virtual async Task<TEntity> UpdateAsync(Expression<Func<TEntity, bool>>? expression, TEntity updatedEntity)
+    public virtual async Task<TEntity> UpdateAsync(Expression<Func<TEntity, bool>> expression, TEntity updatedEntity)
     {
         if (expression == null)
         {
@@ -82,7 +82,7 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
         }
     }
 
-    public virtual async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>>? expression)
+    public virtual async Task<bool> DeleteAsync(Expression<Func<TEntity, bool>> expression)
     {
         if (expression == null)
         {

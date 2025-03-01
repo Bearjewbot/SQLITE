@@ -11,7 +11,7 @@ public class StatusTypeService(IStatusTypeRepository statusTypeRepository) : ISt
 {
     private readonly IStatusTypeRepository _statusTypeRepository = statusTypeRepository;
     
-    public async Task<IEnumerable<StatusType>> GetStatusesAsync()
+    public async Task<IEnumerable<StatusType?>> GetStatusesAsync()
     {
 
         var entity =  await _statusTypeRepository.GetAllAsync();

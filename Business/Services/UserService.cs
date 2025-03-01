@@ -10,7 +10,7 @@ public class UserService(IUserRepository userRepository) : IUserService
 {
     private readonly IUserRepository _userRepository = userRepository;
     
-    public async Task<IEnumerable<User>> GetUsersAsync()
+    public async Task<IEnumerable<User?>> GetUsersAsync()
     {
 
         var entity =  await _userRepository.GetAllAsync();
