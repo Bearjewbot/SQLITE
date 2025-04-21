@@ -133,20 +133,6 @@ namespace Data.Migrations
                     b.HasIndex("UserEntityId");
 
                     b.ToTable("Projects");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 101,
-                            CustomerEntityId = 1,
-                            Description = "Bästa projektet EU",
-                            EndDate = "2026-02-25",
-                            Price = 400000,
-                            ServiceTypeEntityId = 1,
-                            StartDate = "2024-01-25",
-                            StatusTypeEntityId = 1,
-                            UserEntityId = 1
-                        });
                 });
 
             modelBuilder.Entity("Data.Entities.ServiceTypeEntity", b =>

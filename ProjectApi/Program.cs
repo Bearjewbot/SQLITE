@@ -34,6 +34,17 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
+    // !: Apply migrations and create the database at runtime if it doesn't exist
+    // Source:
+    // https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying?tabs=dotnet-core-cli#apply-migrations-at-runtime
+    using var scope = app.Services.CreateScope();
+
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<DataContext>();
+
+    // Ensure the database is created and apply migrations only if needed.
+    await context.Database.MigrateAsync();
 }
 
 app.UseHttpsRedirection();

@@ -17,3 +17,4 @@ public class UserEntity
     public ICollection<ProjectEntity> Projects { get; set; } = [];
     public ICollection<UserContactInfoEntity> ContactInfo { get; set; } = [];
 }
+

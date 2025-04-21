@@ -7,7 +7,7 @@
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -206,11 +206,6 @@ namespace Data.Migrations
                     { 1, "Doggy@hotmail.com", null, 1 },
                     { 2, "Catty@hotmail.com", null, 1 }
                 });
-
-            migrationBuilder.InsertData(
-                table: "Projects",
-                columns: new[] { "Id", "CustomerEntityId", "Description", "EndDate", "Notes", "Price", "ServiceTypeEntityId", "StartDate", "StatusTypeEntityId", "UserEntityId" },
-                values: new object[] { 101, 1, "Bästa projektet EU", "2026-02-25", null, 400000, 1, "2024-01-25", 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_CustomerTypeId",
