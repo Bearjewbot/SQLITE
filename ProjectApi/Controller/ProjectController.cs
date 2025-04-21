@@ -16,6 +16,7 @@ namespace ProjectApi.Controller
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             
+            
             var result = await _projectService.CreateProjectAsync(form);
             return Ok(result);
         }
@@ -24,7 +25,7 @@ namespace ProjectApi.Controller
         public async Task<IActionResult> GetProjects()
         {
             var result = await _projectService.GetProjectsAsync();
-            return Ok(result);
+                    return Ok(result);
         }
 
         [HttpGet("{id:int}")]
@@ -35,7 +36,7 @@ namespace ProjectApi.Controller
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateProject(Project project)
+        public async Task<IActionResult> UpdateProject(ProjectUpdate project)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

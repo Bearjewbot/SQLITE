@@ -33,7 +33,7 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
     }
     
     
-    public async Task<IEnumerable<Project?>> GetProjectsAsync()
+    public async Task<IEnumerable<Project>?> GetProjectsAsync()
     {
         try
         {
@@ -61,12 +61,18 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
         }
     }
 
-    public async Task<ProjectEntity?> UpdateProjectAsync(Project project)
+    public async Task<ProjectEntity?> UpdateProjectAsync(ProjectUpdate project)
     {
         try
         {
             var entity = ProjectFactory.Map(project);
-            return await _projectRepository.UpdateAsync(x => x.Id == entity.Id, entity);
+
+            if (entity != null)
+            {
+                return await _projectRepository.UpdateAsync(x => x.Id == entity.Id, entity);
+            }
+            
+            return null;
         }
         catch (Exception e)
         {

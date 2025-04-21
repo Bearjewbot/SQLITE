@@ -1,12 +1,11 @@
 using System.Diagnostics;
 using Business.Models;
 using Data.Entities;
-
 namespace Business.Factories;
 
 public static class ProjectFactory
 {
-    public static Project? Map(ProjectEntity entity)
+    public static Project Map(ProjectEntity entity)
     {
         try
         {
@@ -41,6 +40,7 @@ public static class ProjectFactory
                 Notes = form.Notes,
                 StartDate = form.StartDate,
                 EndDate = form.EndDate,
+                Price = form.Price,
                 CustomerEntityId = form.CustomerId,
                 UserEntityId = form.UserId,
                 StatusTypeEntityId = form.StatusId,
@@ -54,7 +54,7 @@ public static class ProjectFactory
         }
     }
 
-    public static ProjectEntity? Map(Project project)
+    public static ProjectEntity? Map(ProjectUpdate project)
     {
         try
         {
@@ -66,10 +66,10 @@ public static class ProjectFactory
                 Price = project.Price,
                 StartDate = project.StartDate,
                 EndDate = project.EndDate,
-                CustomerEntityId = project.Customer!.Id,
-                UserEntityId = project.User!.Id,
-                StatusTypeEntityId = project.Status!.Id,
-                ServiceTypeEntityId = project.Service!.Id
+                CustomerEntityId = project.CustomerId,
+                UserEntityId = project.UserId,
+                StatusTypeEntityId = project.StatusId,
+                ServiceTypeEntityId = project.ServiceId
             };
         }
         catch (Exception e)

@@ -51,7 +51,7 @@ public abstract class BaseRepository<TEntity>(DataContext context) : IBaseReposi
         {
             return null!;
         }
-
+        
         return await _dbSet.FirstOrDefaultAsync(expression) ?? null!;
     }
 

@@ -1,7 +1,9 @@
 namespace Business.Models;
 
-public class ProjectRegister
+public class ProjectUpdate
 {
+    public int Id { get; set; }
+    
     public string Description { get; set; } = null!;
     
     public string? Notes { get; set; }
